@@ -19,7 +19,7 @@ public class BackgammonUI
 	private void initComponents()
 	{
 		boardFrame = new JFrame("Backgammon"); 
-		boardFrame.setSize(1000, 850);
+		boardFrame.setSize(1600, 850);
 		boardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		boardFrame.setVisible(true);
 	}
