@@ -1,0 +1,25 @@
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class BackgammonGame{
+
+	public static void main(String[] args)
+	{
+		
+		BackgammonUI gameboardPanel = new BackgammonUI("images/boardpic.jpg");
+		JFrame boardFrame = new JFrame("Backgammon"); 
+		boardFrame.setSize(1600, 850);
+	
+		boardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		boardFrame.getContentPane().add(gameboardPanel, BorderLayout.CENTER);
+		boardFrame.setVisible(true);
+		//BackgammonUI gameBoard = new BackgammonUI(); 
+		gameboardPanel.setPreferredSize(new Dimension(1300,400));
+		
+	}
+
+}
