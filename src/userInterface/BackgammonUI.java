@@ -29,12 +29,9 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.metal.MetalButtonUI;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+
 
 
 public class BackgammonUI
@@ -43,7 +40,6 @@ public class BackgammonUI
 	private  JFrame boardFrame; 
 	private  JFrame gameFrame; 
 	public 	JComponent mainContainer; 
-	public JDialog playerDialogBox;
 	public int flag = 0;
 	
 	public BackgammonUI() throws IOException
@@ -54,7 +50,7 @@ public class BackgammonUI
 	}
 	
 
-	
+
 	private void initComponents() throws IOException
 	{
 		// Declare all components
@@ -64,7 +60,7 @@ public class BackgammonUI
 		JButton quitButton; 
 		Font buttonsFont; 
 		JLabel imageLabel; 
-		
+
 		// main board JFrame
 		boardFrame = new JFrame("Backgammon"); 
 		boardFrame.setSize(1150, 900);
@@ -72,12 +68,9 @@ public class BackgammonUI
 		mainContainer = (JComponent) boardFrame.getContentPane();
 		mainContainer.setLayout(new BorderLayout());
 		mainContainer.setBackground(Color.DARK_GRAY);
-		
-		
-		
+			
 		// font to be used by the buttons on the home page
 		buttonsFont = new Font("Arial", Font.BOLD, 30); 
-		
 		
 		// set up different jpanel for the buttons 
 		buttonsPanel = new JPanel();
@@ -121,10 +114,10 @@ public class BackgammonUI
 		imageLabel = new JLabel(); 
 		// resize the image icon so it can fit in the jlabel 
 		imageLabel.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("Backgammonboard.jpg"))
-				.getImage().getScaledInstance(790, 750, Image.SCALE_SMOOTH)));
-		
+				.getImage().getScaledInstance(790, 750, Image.SCALE_SMOOTH)));		
 	
 		imageLabel.setBorder(BorderFactory.createRaisedBevelBorder()); //remove this border
+
 		imageLabel.setMaximumSize(new Dimension(100, 100));
 						
 		// add everything to the main container 
@@ -132,16 +125,16 @@ public class BackgammonUI
 		mainContainer.add(imageLabel, BorderLayout.CENTER);
 		mainContainer.add(Box.createRigidArea(new Dimension(50,50)), BorderLayout.PAGE_START);
 		mainContainer.add(Box.createRigidArea(new Dimension(50,50)), BorderLayout.PAGE_END);
+
 		
 		Border border = mainContainer.getBorder();
 		Border margin = new EmptyBorder(10,30,10,10);
 		mainContainer.setBorder(new CompoundBorder(border, margin));
 		
-		
-	
 		boardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		boardFrame.setResizable(false);
 		boardFrame.setVisible(true); 
+
 	}
 	
 	
@@ -172,8 +165,7 @@ public class BackgammonUI
 
 
 
-
-			playerDialogBox = new JDialog(boardFrame, buttonClicked, true);
+			JDialog playerDialogBox = new JDialog(boardFrame, buttonClicked, true);
 			playerDialogBox.setSize(new Dimension(650,400));
 			playerDialogBox.setLocationRelativeTo(boardFrame);
 			playerDialogBox.setAlwaysOnTop(true);
@@ -184,6 +176,7 @@ public class BackgammonUI
 			playerPanel.setLayout(groupLayout);
 			
 			JTextField playerOneNameField = new JTextField();
+
 			playerOneNameField.setMaximumSize(new Dimension(350, 40));
 			 playerOneNameField.setText("Player 1");
 			 playerOneNameField.setBorder(BorderFactory.createRaisedSoftBevelBorder());
@@ -463,6 +456,7 @@ public class BackgammonUI
 		
 	}
 	
+
 	private class BackButtonListener implements ActionListener
 	{
 		JDialog dialogBox; 
@@ -486,13 +480,14 @@ public class BackgammonUI
 		public void actionPerformed(ActionEvent e)
 		{
 			
+
 			
 			mainContainer.removeAll();
 			mainContainer.revalidate();
 			mainContainer.repaint();
 			
 			
-			playerDialogBox.setVisible(false);
+
 			JPanel buttonsPanel1; 
 			JButton resetButton; 
 			JButton quitButton; 
@@ -678,3 +673,6 @@ public class BackgammonUI
 	}
 	
 }
+	
+	
+
