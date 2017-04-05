@@ -170,11 +170,12 @@ public class BackgammonUI
 			JButton playToThree = new JButton("3"); 
 			JButton playToFive = new JButton("5"); 
 			JButton playToSeven = new JButton("7"); 
-			JButton whiteColorButton = new JButton();
+			JButton whiteColorButton = new JButton(" ");
 			whiteColorButton.setBackground(Color.WHITE);
-			whiteColorButton.setMaximumSize(new Dimension(20,8));
-			JButton blackColorButton = new JButton(); 
-			blackColorButton.setBackground(Color.black);
+			whiteColorButton.setForeground(Color.WHITE);
+			JButton blackColorButton = new JButton(" "); 
+			blackColorButton.setBackground(Color.BLACK);
+			blackColorButton.setForeground(Color.BLACK);
 			JButton startButton = new JButton("Start");
 			startButton.setToolTipText("Start Game!");
 			startButton.addActionListener(new GameListener());
@@ -223,13 +224,13 @@ public class BackgammonUI
 					.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(nameOneLabel)
-							.addGap(25)
-							.addComponent(colorLabel)
-							.addGap(25)
-							.addComponent(playToLabel)
-							.addGap(25)
-							.addComponent(difficultyLabel)
 							.addGap(35)
+							.addComponent(colorLabel)
+							.addGap(35)
+							.addComponent(playToLabel)
+							.addGap(30)
+							.addComponent(difficultyLabel)
+							.addGap(40)
 							.addComponent(startButton)
 							)
 						
@@ -240,7 +241,7 @@ public class BackgammonUI
 							.addComponent(whiteColorButton)
 							.addGap(25)
 							.addComponent(playToOne)
-							.addGap(22)
+							.addGap(25)
 							.addComponent(easyButton)
 							)
 					.addGroup(groupLayout.createSequentialGroup()
