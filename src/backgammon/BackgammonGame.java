@@ -8,10 +8,11 @@ import userInterface.BackgammonUI;
 
 public class BackgammonGame {
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException
+	public static void main(String[] args) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, InterruptedException
 	{
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		BackgammonUI gameBoard = new BackgammonUI(); 
+		Thread.sleep(10000);
 	}
 
 }

@@ -11,8 +11,12 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -33,17 +37,31 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.metal.MetalButtonUI;
 
 
-public class BackgammonUI
+//music
+
+
+import java.io.*;
+import javax.swing.*;
+import sun.audio.*;
+import javax.sound.sampled.*;
+
+
+public class BackgammonUI 
 {
 
 	private  JFrame boardFrame; 
 	private  JFrame gameFrame; 
 	public 	JComponent mainContainer; 
 	public int flag = 0;
+	public boolean soundStatus = false;
+	Thread playMusic;
+	Clip clip;
+	
+	
 	
 	public BackgammonUI() throws IOException
 	{
-		
+			
 			initComponents();
 		
 	}
@@ -57,7 +75,11 @@ public class BackgammonUI
 		JButton multiPlayerButton; 
 		JButton quitButton; 
 		Font buttonsFont; 
+		Font soundFont;
 		JLabel imageLabel; 
+		JButton musicButton;
+		
+		
 		
 		// main board JFrame
 		boardFrame = new JFrame("Backgammon"); 
@@ -69,6 +91,7 @@ public class BackgammonUI
 			
 		// font to be used by the buttons on the home page
 		buttonsFont = new Font("Arial", Font.BOLD, 30); 
+		soundFont = new Font("Arial", Font.BOLD, 20);
 		
 		
 		// set up different jpanel for the buttons 
@@ -77,6 +100,7 @@ public class BackgammonUI
 		buttonsPanel.setPreferredSize(new Dimension(350, 10));
 		buttonsPanel.add(Box.createRigidArea(new Dimension(0,300)));
 		buttonsPanel.setBackground(Color.DARK_GRAY);
+		
 		
 		// single player button 
 		singlePlayerButton = new JButton("Single");
@@ -108,6 +132,20 @@ public class BackgammonUI
 		quitButton.setFont(buttonsFont);
 		quitButton.addActionListener(new QuitListener());
 		buttonsPanel.add(quitButton);
+		
+		
+		buttonsPanel.add(Box.createRigidArea(new Dimension(0,200)));
+		
+		musicButton = new JButton("Music"); 
+		musicButton.setToolTipText("Click for music");
+		musicButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+		musicButton.setMaximumSize(new Dimension(100, 40));
+		musicButton.setFont(soundFont);
+		musicButton.addActionListener(new musicListener());
+		buttonsPanel.add(musicButton);
+		
+		
+		
 		
 		// seperate label for background image
 		imageLabel = new JLabel(); 
@@ -508,6 +546,7 @@ public class BackgammonUI
 
 	{
 		JDialog dialogBox; 
+		JLabel rollLabel;
 		
 		GameListener()
 		{
@@ -531,9 +570,17 @@ public class BackgammonUI
 			JPanel buttonsPanel1; 
 			JButton resetButton; 
 			JButton quitButton; 
+			JButton dieButton;
 			JButton mainMenuButton;
 			Font buttonsFont; 
 			JLabel boardLabel = new JLabel(); 
+			JLabel diceLabel;
+			Font dieFont;
+			
+			JButton musicButton;
+			//JLabel rollLabel;
+			dieFont = new Font("Arial", Font.BOLD, 20); 
+			Font soundFont = new Font("Arial", Font.BOLD, 20);
 			
 			boardLabel = new JLabel(); 
 			// resize the image icon so it can fit in the jlabel 
@@ -549,10 +596,58 @@ public class BackgammonUI
 			// set up different jpanel for the buttons 
 			buttonsPanel1 = new JPanel();
 			buttonsPanel1.setLayout(new BoxLayout(buttonsPanel1, BoxLayout.Y_AXIS));
-			buttonsPanel1.setPreferredSize(new Dimension(350, 10));
-			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,300)));
+			buttonsPanel1.setPreferredSize(new Dimension(350, 50));
+			//buttonsPanel1.add(Box.createRigidArea(new Dimension(20,300)));
 			buttonsPanel1.setBackground(Color.DARK_GRAY);
+			
+			
+			
+			diceLabel = new JLabel();
+			diceLabel.setText("Roll the Die!");
+			diceLabel.setForeground(Color.WHITE);
+			diceLabel.setFont(dieFont);
+			diceLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			diceLabel.setAlignmentY(JButton.TOP_ALIGNMENT);
+			buttonsPanel1.add(diceLabel);
+			
+			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,20)));
+			
+			
+			dieButton = new JButton();
+			try {
+			    Image img = ImageIO.read(getClass().getResource("die.jpg"));
+			    dieButton.setIcon(new ImageIcon(img));
+			  } catch (Exception ex) {
+			    System.out.println(ex);
+			  }
+			dieButton.setBorder(BorderFactory.createEmptyBorder());
+			dieButton.setContentAreaFilled(false);
 		
+			dieButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			dieButton.setAlignmentY(JButton.TOP_ALIGNMENT);
+			//dieButton.setMaximumSize(new Dimension(250,70));
+			//dieButton.addActionListener(new dieListener());
+			//dieButton.setActionCommand("Reset");
+			
+			
+			buttonsPanel1.add(dieButton);
+			//buttonsPanel1.add(Box.createRigidArea(new Dimension(0,15)));
+			
+			
+			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,20)));
+			
+			rollLabel = new JLabel();
+			//rollLabel.setText("Roll the Die!");   //SET TEXT HERE
+			rollLabel.setForeground(Color.WHITE);
+			rollLabel.setFont(dieFont);
+			rollLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+			
+			dieButton.addActionListener(new dieListener(rollLabel));
+			buttonsPanel1.add(rollLabel);
+		
+			
+			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,150)));
+			
 			resetButton = new JButton("Reset");
 			resetButton.setToolTipText("Start Fresh!");
 			resetButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
@@ -586,14 +681,26 @@ public class BackgammonUI
 			
 			
 			
+			musicButton = new JButton("Music"); 
+			musicButton.setToolTipText("Click for music");
+			musicButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			musicButton.setMaximumSize(new Dimension(100, 40));
+			musicButton.setFont(soundFont);
+			musicButton.addActionListener(new musicListener());
+			
+			
+			
+			
 			buttonsPanel1.add(mainMenuButton);
 			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,15)));
 			
 			
 			
 			buttonsPanel1.add(quitButton);
-			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,15)));
+			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,150)));
 			
+			
+			buttonsPanel1.add(musicButton);
 			
 							
 			// add everything to the main container 
@@ -634,106 +741,204 @@ public class BackgammonUI
 			mainContainer.revalidate();
 			mainContainer.repaint();
 			
-			
-
-			JPanel buttonsPanel1; 
-			JButton resetButton; 
+			JPanel buttonsPanel; 
+			JButton singlePlayerButton; 
+			JButton multiPlayerButton; 
 			JButton quitButton; 
-			JButton mainMenuButton;
 			Font buttonsFont; 
-			JLabel boardLabel = new JLabel(); 
+			JLabel imageLabel; 
+			JButton musicButton;
 			
-			
-		
-			
-			boardLabel = new JLabel(); 
-			// resize the image icon so it can fit in the jlabel 
-			boardLabel.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("board.jpg"))
-					.getImage().getScaledInstance(790, 750, Image.SCALE_SMOOTH)));
-			
-		
-			boardLabel.setBorder(BorderFactory.createRaisedBevelBorder()); //remove this border
-			boardLabel.setMaximumSize(new Dimension(100, 100));
-			
+			Font soundFont = new Font("Arial", Font.BOLD, 20);
 			buttonsFont = new Font("Arial", Font.BOLD, 30); 
-			
-			// set up different jpanel for the buttons 
-			buttonsPanel1 = new JPanel();
-			buttonsPanel1.setLayout(new BoxLayout(buttonsPanel1, BoxLayout.Y_AXIS));
-			buttonsPanel1.setPreferredSize(new Dimension(350, 10));
-			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,300)));
-			buttonsPanel1.setBackground(Color.DARK_GRAY);
 		
-			resetButton = new JButton("Reset");
-			resetButton.setToolTipText("Start Fresh!");
-			resetButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-			resetButton.setMaximumSize(new Dimension(250,70));
-			resetButton.setActionCommand("Reset");
-			resetButton.setFont(buttonsFont);
-			resetButton.addActionListener(new GameListener());
+			
+			buttonsPanel = new JPanel();
+			buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
+			buttonsPanel.setPreferredSize(new Dimension(350, 10));
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,300)));
+			buttonsPanel.setBackground(Color.DARK_GRAY);
 			
 			
-			mainMenuButton = new JButton("Main Menu");
-			mainMenuButton.setToolTipText("Back to Main Menu!");
-			mainMenuButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-			mainMenuButton.setMaximumSize(new Dimension(250,70));
-			mainMenuButton.setActionCommand("Main Menu");
-			mainMenuButton.setFont(buttonsFont);
+			// single player button 
+			singlePlayerButton = new JButton("Single");
+			singlePlayerButton.setToolTipText("Click to play against the computer");
+			singlePlayerButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			singlePlayerButton.setMaximumSize(new Dimension(250,70));
+			singlePlayerButton.setActionCommand("Single");
+			singlePlayerButton.setFont(buttonsFont);
+			singlePlayerButton.addActionListener(new PlayerListener());
+			buttonsPanel.add(singlePlayerButton);
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
 			
-			 
+			// multi player button 
+			multiPlayerButton = new JButton("Multiplayer");
+			multiPlayerButton.setToolTipText("Click to play against a friend");
+			multiPlayerButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			multiPlayerButton.setMaximumSize(new Dimension(250, 70));
+			multiPlayerButton.setActionCommand("Multiplayer");
+			multiPlayerButton.setFont(buttonsFont);
+			multiPlayerButton.addActionListener(new PlayerListener());
+			buttonsPanel.add(multiPlayerButton);
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
 			
-			buttonsPanel1.add(resetButton);
-			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,15)));
-			
-			
-			
-			// quit player button 
-			quitButton = new JButton("Quit");
-			quitButton.setToolTipText("Go Back to Main Screen");
+			// quit button 
+			quitButton = new JButton("Quit"); 
+			quitButton.setToolTipText("Click to Quit game");
 			quitButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 			quitButton.setMaximumSize(new Dimension(250, 70));
-			quitButton.setActionCommand("Quit");
 			quitButton.setFont(buttonsFont);
+			quitButton.addActionListener(new QuitListener());
+			buttonsPanel.add(quitButton);
 			
 			
 			
-			buttonsPanel1.add(mainMenuButton);
-			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,15)));
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,200)));
+			
+			musicButton = new JButton("Music"); 
+			musicButton.setToolTipText("Click for music");
+			musicButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			musicButton.setMaximumSize(new Dimension(100, 40));
+			musicButton.setFont(soundFont);
+			musicButton.addActionListener(new musicListener());
+			buttonsPanel.add(musicButton);
 			
 			
-			
-			buttonsPanel1.add(quitButton);
-			buttonsPanel1.add(Box.createRigidArea(new Dimension(0,15)));
-			
-			
-			
-			
+			// seperate label for background image
+			imageLabel = new JLabel(); 
+			// resize the image icon so it can fit in the jlabel 
+			imageLabel.setIcon(new ImageIcon(new javax.swing.ImageIcon(getClass().getResource("Backgammonboard.jpg"))
+					.getImage().getScaledInstance(790, 750, Image.SCALE_SMOOTH)));		
+		
+
+			imageLabel.setBorder(BorderFactory.createRaisedBevelBorder());
+
+
+			imageLabel.setMaximumSize(new Dimension(100, 100));
 							
 			// add everything to the main container 
-			
-			mainContainer.add(buttonsPanel1, BorderLayout.LINE_END);
-			mainContainer.add(boardLabel, BorderLayout.CENTER);
+			mainContainer.add(buttonsPanel, BorderLayout.LINE_END);
+			mainContainer.add(imageLabel, BorderLayout.CENTER);
 			mainContainer.add(Box.createRigidArea(new Dimension(50,50)), BorderLayout.PAGE_START);
 			mainContainer.add(Box.createRigidArea(new Dimension(50,50)), BorderLayout.PAGE_END);
-			
-		//	Border border = mainContainer.getBorder();
-			//Border margin = new EmptyBorder(10,30,10,10);
-		//	mainContainer.setBorder(new CompoundBorder(border, margin));
-			
-			quitButton.addActionListener(new QuitListener());
-			resetButton.addActionListener(new GameListener()); 
-			mainMenuButton.addActionListener(new mainMenuListener());
+
 			
 			
 			
 			boardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			boardFrame.setResizable(false);
-			boardFrame.setVisible(true);
+
+			boardFrame.setVisible(true); 
 			
 			
 			
 		}
 	}
+	
+	
+	// update the rollLabel JLabel when the dice are rolled
+	private class dieListener implements ActionListener{
+		
+		private JLabel labels;
+		public dieListener(JLabel rollLabel){
+			this.labels = rollLabel;
+			
+			
+		}
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			
+			
+			Random rand = new Random();
+			int ranumFirst = rand.nextInt(6)+1;
+			int ranumSecond = rand.nextInt(6)+1;
+		
+			System.out.println(ranumFirst + " and " + ranumSecond );
+			
+			labels.setText(ranumFirst + " and " + ranumSecond);
+			
+			
+		
+			
+			
+				
+			
+			
+			
+			
+		}
+	}
+	
+	
+	
+	
+	public class musicListener implements ActionListener {
+		//String name = "src/userinterface/maskoff";
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		
+			 
+			musicThread runmT = new musicThread();
+			Thread myThread = new Thread(runmT);
+			myThread.start();
+			
+			 if(soundStatus == true){
+				  clip.stop();
+				  soundStatus = false;
+				  myThread.stop();
+				  
+				  }
+		
+			
+		}	
+		
+		
+		
+		
+		}
+	
+	public class musicThread implements Runnable{
+
+		@Override
+		public void run() {
+			String name = "src/userinterface/maskoff";
+			
+			
+			if(soundStatus == false){
+			
+			
+			try {
+				  File file = new File(name + ".wav");
+				  clip = AudioSystem.getClip();
+				  clip.open(AudioSystem.getAudioInputStream(file));
+				  
+				  
+				  
+					  clip.start();
+					  soundStatus = true;
+				  
+				 // if(soundStatus == true){
+					//  clip.stop();
+					  //soundStatus = false;
+					//  }
+				  Thread.sleep(clip.getMicrosecondLength());
+				  Thread.sleep(1000);
+				//  clip.stop();
+			  } 
+			  	catch (Exception exo) {System.err.println(exo.getMessage());}
+			}
+			
+		}
+		
+	}
+	
+
+	
+	
+
+	
 	
 }
 
