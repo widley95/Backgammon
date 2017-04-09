@@ -103,7 +103,7 @@ public class BackgammonUI
 		buttonsPanel.setPreferredSize(new Dimension(350, 10));
 		
 		// Volume On button 
-				on = new JToggleButton("Volume On");
+				on = new JToggleButton("Volume Up");
 				on.setToolTipText("Click to turn volume on.");
 				on.setAlignmentX(JButton.CENTER_ALIGNMENT);
 				on.setMaximumSize(new Dimension(250,70));
@@ -113,7 +113,7 @@ public class BackgammonUI
 				buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
 				
 				// Volume Off button
-				off = new JToggleButton("Volume Off");
+				off = new JToggleButton("Volume Down");
 				off.setToolTipText("Click to mute volume.");
 				off.setAlignmentX(JButton.CENTER_ALIGNMENT);
 				off.setMaximumSize(new Dimension(250,70));
@@ -122,7 +122,7 @@ public class BackgammonUI
 				buttonsPanel.add(off);
 				buttonsPanel.add(Box.createRigidArea(new Dimension(0,20)));
 				
-		buttonsPanel.add(Box.createRigidArea(new Dimension(0,280)));
+		buttonsPanel.add(Box.createRigidArea(new Dimension(0,100)));
 		buttonsPanel.setBackground(Color.DARK_GRAY);
 
 		// single player button 
@@ -154,6 +154,7 @@ public class BackgammonUI
 		help.setMaximumSize(new Dimension(250, 70));
 		help.setActionCommand("Multiplayer");
 		help.setFont(buttonsFont);
+		help.addActionListener(new helpListener());
 		buttonsPanel.add(help);
 		buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
 		
@@ -791,7 +792,7 @@ public class BackgammonUI
 			buttonsPanel.setPreferredSize(new Dimension(350, 10));
 			
 			// Volume On button 
-			on = new JToggleButton("Volume On");
+			on = new JToggleButton("Volume Up");
 			on.setToolTipText("Click to turn on volume.");
 			on.setAlignmentX(JButton.CENTER_ALIGNMENT);
 			on.setMaximumSize(new Dimension(250,70));
@@ -802,7 +803,7 @@ public class BackgammonUI
 			buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
 			
 			// Volume Off button
-			off = new JToggleButton("Volume Off");
+			off = new JToggleButton("Volume Down");
 			off.setToolTipText("Click to mute volume.");
 			off.setAlignmentX(JButton.CENTER_ALIGNMENT);
 			off.setMaximumSize(new Dimension(250,70));
@@ -812,7 +813,7 @@ public class BackgammonUI
 			buttonsPanel.add(off);
 			buttonsPanel.add(Box.createRigidArea(new Dimension(0,20)));
 			
-			buttonsPanel.add(Box.createRigidArea(new Dimension(0,250)));
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,100)));
 			buttonsPanel.setBackground(Color.DARK_GRAY);
 			
 			
@@ -844,6 +845,7 @@ public class BackgammonUI
 			help.setAlignmentX(JButton.CENTER_ALIGNMENT);
 			help.setMaximumSize(new Dimension(250, 70));
 			help.setActionCommand("Multiplayer");
+			help.addActionListener(new helpListener());
 			help.setFont(buttonsFont);
 			buttonsPanel.add(help);
 			buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
@@ -939,6 +941,48 @@ public class BackgammonUI
 	
 	
 	
+	public class helpListener implements ActionListener {
+		//String name = "src/userinterface/maskoff";
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+		
+			int response = JOptionPane.showConfirmDialog(null, "Backgammon is a game for two players, played on a board consisting of twenty-four narrow triangles "
+																+ "\n" + "called points. The triangles alternate in color and are grouped into four quadrants of six triangles each."
+																+ "\n" +" The quadrants are referred to as a player’s home board and outer board, and the opponent’s home board and"
+																+ "\n" +" outer board. The home and outer boards are separated from each other by a ridge down the center of the board"
+																+ "\n" +" called the bar.", 
+                    "Help!", JOptionPane.PLAIN_MESSAGE);
+            
+            if (response == JOptionPane.YES_OPTION)
+                JOptionPane.getRootFrame();
+			
+			
+		
+			
+		}	
+		
+		
+		
+		
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public class musicListener implements ActionListener {
 		//String name = "src/userinterface/maskoff";
@@ -970,7 +1014,7 @@ public class BackgammonUI
 
 		@Override
 		public void run() {
-			String name = "src/userinterface/maskoff";
+			String name = "src/userinterface/ispy";
 			
 			
 			if(soundStatus == false){
