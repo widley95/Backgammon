@@ -72,7 +72,10 @@ public class BackgammonUI
 		// Declare all components
 		JPanel buttonsPanel; 
 		JButton singlePlayerButton; 
-		JButton multiPlayerButton; 
+		JButton multiPlayerButton;
+		JButton help;
+		JToggleButton on;
+		JToggleButton off;
 		JButton quitButton; 
 		Font buttonsFont; 
 		Font soundFont;
@@ -98,10 +101,30 @@ public class BackgammonUI
 		buttonsPanel = new JPanel();
 		buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 		buttonsPanel.setPreferredSize(new Dimension(350, 10));
-		buttonsPanel.add(Box.createRigidArea(new Dimension(0,300)));
+		
+		// Volume On button 
+				on = new JToggleButton("Volume On");
+				on.setToolTipText("Click to turn volume on.");
+				on.setAlignmentX(JButton.CENTER_ALIGNMENT);
+				on.setMaximumSize(new Dimension(250,70));
+				on.setActionCommand("On");
+				on.setFont(buttonsFont);
+				buttonsPanel.add(on);
+				buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
+				
+				// Volume Off button
+				off = new JToggleButton("Volume Off");
+				off.setToolTipText("Click to mute volume.");
+				off.setAlignmentX(JButton.CENTER_ALIGNMENT);
+				off.setMaximumSize(new Dimension(250,70));
+				off.setActionCommand("Off");
+				off.setFont(buttonsFont);
+				buttonsPanel.add(off);
+				buttonsPanel.add(Box.createRigidArea(new Dimension(0,20)));
+				
+		buttonsPanel.add(Box.createRigidArea(new Dimension(0,280)));
 		buttonsPanel.setBackground(Color.DARK_GRAY);
-		
-		
+
 		// single player button 
 		singlePlayerButton = new JButton("Single");
 		singlePlayerButton.setToolTipText("Click to play against the computer");
@@ -124,6 +147,16 @@ public class BackgammonUI
 		buttonsPanel.add(multiPlayerButton);
 		buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
 		
+		// help button 
+		help = new JButton("Help");
+		help.setToolTipText("Click to play against a friend");
+		help.setAlignmentX(JButton.CENTER_ALIGNMENT);
+		help.setMaximumSize(new Dimension(250, 70));
+		help.setActionCommand("Multiplayer");
+		help.setFont(buttonsFont);
+		buttonsPanel.add(help);
+		buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
+		
 		// quit button 
 		quitButton = new JButton("Quit"); 
 		quitButton.setToolTipText("Click to Quit game");
@@ -143,8 +176,6 @@ public class BackgammonUI
 		musicButton.setFont(soundFont);
 		musicButton.addActionListener(new musicListener());
 		buttonsPanel.add(musicButton);
-		
-		
 		
 		
 		// seperate label for background image
@@ -541,7 +572,6 @@ public class BackgammonUI
 		}
 	}
 	
-	/*ANDRES, start doing your shit here*/
 	private class GameListener implements ActionListener
 
 	{
@@ -743,7 +773,10 @@ public class BackgammonUI
 			
 			JPanel buttonsPanel; 
 			JButton singlePlayerButton; 
-			JButton multiPlayerButton; 
+			JButton multiPlayerButton;
+			JButton help;
+			JToggleButton on;
+			JToggleButton off;
 			JButton quitButton; 
 			Font buttonsFont; 
 			JLabel imageLabel; 
@@ -756,7 +789,30 @@ public class BackgammonUI
 			buttonsPanel = new JPanel();
 			buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 			buttonsPanel.setPreferredSize(new Dimension(350, 10));
-			buttonsPanel.add(Box.createRigidArea(new Dimension(0,300)));
+			
+			// Volume On button 
+			on = new JToggleButton("Volume On");
+			on.setToolTipText("Click to turn on volume.");
+			on.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			on.setMaximumSize(new Dimension(250,70));
+			on.setActionCommand("On");
+			on.setFont(buttonsFont);
+			//on.addActionListener(new PlayerListener());
+			buttonsPanel.add(on);
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
+			
+			// Volume Off button
+			off = new JToggleButton("Volume Off");
+			off.setToolTipText("Click to mute volume.");
+			off.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			off.setMaximumSize(new Dimension(250,70));
+			off.setActionCommand("Off");
+			off.setFont(buttonsFont);
+			//on.addActionListener(new PlayerListener());
+			buttonsPanel.add(off);
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,20)));
+			
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,250)));
 			buttonsPanel.setBackground(Color.DARK_GRAY);
 			
 			
@@ -781,6 +837,17 @@ public class BackgammonUI
 			multiPlayerButton.addActionListener(new PlayerListener());
 			buttonsPanel.add(multiPlayerButton);
 			buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
+			
+			// help button 
+			help = new JButton("Help");
+			help.setToolTipText("Click to play against a friend");
+			help.setAlignmentX(JButton.CENTER_ALIGNMENT);
+			help.setMaximumSize(new Dimension(250, 70));
+			help.setActionCommand("Multiplayer");
+			help.setFont(buttonsFont);
+			buttonsPanel.add(help);
+			buttonsPanel.add(Box.createRigidArea(new Dimension(0,15)));
+			
 			
 			// quit button 
 			quitButton = new JButton("Quit"); 
